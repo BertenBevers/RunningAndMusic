@@ -23,8 +23,8 @@ import android.widget.MediaController;
 
 public class player extends ActionBarActivity implements MediaController.MediaPlayerControl {
 
-    private ArrayList<Song> songList;
-    private ListView songView;
+    private ArrayList<Song> songList; // maken van lijst van song objecten genaamd songlist.
+    private ListView songView; // list view waar de songlist in weergegeven zal worden.
     private boolean paused=false, playbackPaused=false;
     private MusicService musicSrv;
     private Intent playIntent;
@@ -38,9 +38,9 @@ public class player extends ActionBarActivity implements MediaController.MediaPl
 
         setContentView(R.layout.activity_player);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff1d97dd));
-        songView = (ListView)findViewById(R.id.song_list);
+        songView = (ListView)findViewById(R.id.song_list); //linken van songView aan de list view in de layout file gebruik makende van het ID
         songList = new ArrayList<Song>();
-        getSongList();
+        getSongList();//songs retrieven van device zowel sd card als intern
         Collections.sort(songList, new Comparator<Song>(){
             public int compare(Song a, Song b){
                 return a.getTitle().compareTo(b.getTitle());
