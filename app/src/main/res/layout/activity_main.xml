@@ -1,0 +1,85 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/carousel"
+            android:adjustViewBounds="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/carousel1"
+            />
+
+
+
+
+        <LinearLayout
+            android:id="@+id/buttonsLinear"
+            android:paddingTop="50dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/carousel">
+
+            <Button
+                android:padding="5dp"
+                android:background="#0091ea"
+                android:textColor="#fff"
+                android:layout_marginLeft="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calculate BPM"
+                android:id="@+id/btnCalc" />
+
+            <Button
+                android:padding="5dp"
+                android:textColor="#fff"
+                android:background="#0091ea"
+                android:layout_marginLeft="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start"
+                android:id="@+id/buttonStart" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_below="@id/buttonsLinear"
+            android:layout_width="match_parent"
+            android:layout_height="500px">
+
+            <TextView
+                android:paddingBottom="100dp"
+                android:id="@+id/recentActivities"
+                android:textSize="20dp"
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:textColor="#fff"
+                android:text="Recent activities:"
+                android:background="#0091ea"
+                android:layout_marginTop="70dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+
+
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+</ScrollView>
