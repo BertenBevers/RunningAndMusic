@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Set BPM"
-                android:id="@+id/btnSetBpm" />
+                android:id="@+id/buttonSetBpm" />
 
             <TextView
                 android:paddingBottom="100dp"

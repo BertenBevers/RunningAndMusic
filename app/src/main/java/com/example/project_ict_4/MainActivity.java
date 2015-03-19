@@ -13,7 +13,8 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
     Button btnStart;
-    Button SetBPM;
+    Button btnSetBPM;
+    //Make a collection for the accelormeter data so we can use it for the pace recognition
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff1d97dd));
         btnStart = (Button) findViewById(R.id.buttonStart);
+        btnSetBPM = (Button) findViewById(R.id.buttonSetBpm);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,8 +31,21 @@ public class MainActivity extends ActionBarActivity {
                startActivity(i);
             }
         });
+        btnSetBPM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // vind hoe je nieuw scherm kan maken voor layout van SetBpm.
+                // of slider implementeren incrementatie van 1bpm.
 
+                //vervolgens liedjes aan bpm linken.
+            }
+        });
     }
+    public short SetBPM(short bpm)
+    {
+        return bpm;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
