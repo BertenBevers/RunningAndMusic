@@ -13,6 +13,7 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
     Button btnStart;
+    Button SetBPM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

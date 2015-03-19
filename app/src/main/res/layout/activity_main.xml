@@ -42,16 +42,24 @@
                 android:layout_height="wrap_content"
                 android:text="Start"
                 android:id="@+id/buttonStart" />
-
         </LinearLayout>
-
-
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_below="@id/buttonsLinear"
             android:layout_width="match_parent"
             android:layout_height="500px">
+
+            <Button
+                android:padding="5dp"
+                android:background="#0091ea"
+                android:textColor="#fff"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set BPM"
+                android:id="@+id/btnSetBpm" />
 
             <TextView
                 android:paddingBottom="100dp"
@@ -65,16 +73,7 @@
                 android:layout_marginTop="70dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-
-
-
-
         </LinearLayout>
 
-        </LinearLayout>
-
-
-
-
+    </LinearLayout>
 </ScrollView>
