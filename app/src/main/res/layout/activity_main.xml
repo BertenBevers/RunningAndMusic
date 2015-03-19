@@ -3,7 +3,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -14,11 +13,7 @@
             android:adjustViewBounds="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/carousel1"
-            />
-
-
-
+            android:src="@drawable/carousel1" />
 
         <LinearLayout
             android:id="@+id/buttonsLinear"

@@ -26,15 +26,10 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                Intent i = new Intent(getApplicationContext(), player.class);
                startActivity(i);
-
-
             }
         });
 
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
