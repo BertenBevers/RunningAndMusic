@@ -14,6 +14,7 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity {
     Button btnStart;
     Button btnSetBPM;
+    Button btnDetectRP;
     //Make a collection for the accelormeter data so we can use it for the pace recognition
 
     @Override
@@ -23,6 +24,17 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff1d97dd));
         btnStart = (Button) findViewById(R.id.buttonStart);
         btnSetBPM = (Button) findViewById(R.id.buttonSetBpm);
+        btnDetectRP = (Button) findViewById(R.id.btnDetectRunningPace);
+
+
+
+        btnDetectRP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), StepResponse.class);
+                startActivity(i);
+            }
+        });
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override

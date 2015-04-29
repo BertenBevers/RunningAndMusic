@@ -61,6 +61,17 @@
                 android:text="Set BPM"
                 android:id="@+id/buttonSetBpm" />
 
+            <Button
+                android:padding="5dp"
+                android:background="#0091ea"
+                android:textColor="#fff"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detect Running Pace"
+                android:id="@+id/btnDetectRunningPace" />
+
             <TextView
                 android:paddingBottom="100dp"
                 android:id="@+id/recentActivities"
