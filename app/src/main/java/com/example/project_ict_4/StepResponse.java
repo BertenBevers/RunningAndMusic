@@ -39,7 +39,7 @@ public class StepResponse extends Activity implements SensorEventListener {
     double Time = 0; //will be used to store millis timer into and make together with PreviousTime, the AnalyzingTime
     double PreviousTime = 0;
     double AnalyzingTime = 0;
-    String text = "Iteration in seconds:";
+    String text = "Iteration in seconds: ";
 
     public void onCreate(Bundle savedInstanceState){
 
@@ -92,6 +92,10 @@ public class StepResponse extends Activity implements SensorEventListener {
         double x=event.values[0];
         double y=event.values[1]; // acceleration speed
         double z=event.values[2];
+
+        xCoor.setText("X: "+ x);
+        yCoor.setText("Y: "+ y);
+        zCoor.setText("Z: "+ z);
 /*
 
         for (i = 0; i < samples.length; i++ ) {
@@ -111,12 +115,13 @@ public class StepResponse extends Activity implements SensorEventListener {
             {
                 c = StepCounter % SetIteration; // c = an array index, SetIteration = variable amount of steps taken, used to analyze BPM
                 StepCounter++; // amount of steps increased by 1
-                Time = android.os.SystemClock.uptimeMillis()/1000; // Time in millis from when your screen is lit.
+                Time = android.os.SystemClock.uptimeMillis(); // Time in millis from when your screen is lit.
 
                 TimeBetweenSteps[c] = Time - PreviousTime;
-                if (0 <= (Time - PreviousTime) && (Time - PreviousTime) <= 1) //We assume that in a 1s iteration (60BPM), no1 is running anymore.
+                if (0 <= (Time - PreviousTime)/1000 && (Time - PreviousTime)/1000 <= 5) //We assume that in a 1s iteration (60BPM), no1 is running anymore.
                 {
-                    AnalyzingTime += TimeBetweenSteps[c]; // Add all timestamps together
+                    AnalyzingTime += TimeBetweenSteps[c]/1000; // Add all timestamps together
+
                 }
                 else {
                     StepCounter = 0; // put values on 0 to start new analysis
