@@ -2,10 +2,10 @@ package com.example.project_ict_4;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
-
 
 /**
  * Created by Berten on 6/05/2015.
@@ -24,6 +24,23 @@ public class DatabaseAdapter  {
         contentValues.put(DatabaseHandler.ARTIST, artist);
         contentValues.put(DatabaseHandler.BPM, bpm);
         db.insert(DatabaseHandler.TABLE_NAME, null, contentValues);
+    }
+
+    public String getAllData()
+    {
+        SQLiteDatabase db = handler.getWritableDatabase();
+
+        String[] columns = {DatabaseHandler.UID, DatabaseHandler.TITLE, DatabaseHandler.ARTIST, DatabaseHandler.BPM};
+        Cursor cursor=db.query(DatabaseHandler.TABLE_NAME, columns, null,null,null,null,null);
+        StringBuffer buffer = new StringBuffer();
+        while(cursor.moveToNext()){
+            int cid = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String artist = cursor.getString(2);
+            double bpm = cursor.getDouble(3);
+            buffer.append("|"+cid+"#"+title+"#"+ artist +"#"+Double.toString(bpm)+"|");
+        }
+        return buffer.toString();
     }
 
     class DatabaseHandler extends SQLiteOpenHelper {
