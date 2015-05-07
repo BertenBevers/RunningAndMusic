@@ -9,12 +9,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class MainActivity extends ActionBarActivity {
     Button btnStart;
     Button btnSetBPM;
     Button btnDetectRP;
+    Button btnCalculator;
+    String SongTitle;
+    String Artist;
+    EchoNestHandler echoservice;
+
     //Make a collection for the accelormeter data so we can use it for the pace recognition
 
     @Override
@@ -25,6 +34,22 @@ public class MainActivity extends ActionBarActivity {
         btnStart = (Button) findViewById(R.id.buttonStart);
         btnSetBPM = (Button) findViewById(R.id.buttonSetBpm);
         btnDetectRP = (Button) findViewById(R.id.btnDetectRunningPace);
+        btnCalculator =(Button) findViewById(R.id.btnCalc);
+
+        btnCalculator.setOnClickListener(new View.OnClickListener()
+        {public void onClick(View v) {
+                echoservice = new EchoNestHandler();
+                    for (Song s : player.songList) {
+                        SongTitle=s.getTitle();
+                        Artist=s.getArtist();
+
+                        String Url =echoservice.FormatUrl(Artist,SongTitle);
+                        double bpm= echoservice.SendToNest(Url);
+                        String bpm2 = String.valueOf(bpm);
+                        Toast.makeText(MainActivity.this,bpm2, Toast.LENGTH_LONG).show();
+
+                    }
+            }});
 
 
 

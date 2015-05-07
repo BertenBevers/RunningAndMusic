@@ -23,7 +23,7 @@ import android.widget.MediaController;
 
 public class player extends ActionBarActivity implements MediaController.MediaPlayerControl {
 
-    private ArrayList<Song> songList; // maken van lijst van song objecten genaamd songlist.
+    public static ArrayList<Song> songList; // maken van lijst van song objecten genaamd songlist.
     private ListView songView; // list view waar de songlist in weergegeven zal worden.
     private boolean paused=false, playbackPaused=false;
     private MusicService musicSrv;
@@ -49,6 +49,7 @@ public class player extends ActionBarActivity implements MediaController.MediaPl
         });
         SongAdapter songAdt = new SongAdapter(this,songList);
         songView.setAdapter(songAdt);
+
         setController();
     }
     //connect to the service

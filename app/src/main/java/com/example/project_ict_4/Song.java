@@ -5,7 +5,7 @@ package com.example.project_ict_4;
  /* bepalen welke info er bij elke track word opgeslagen (id , titel , artiest)*/
 public class Song {
     private long id;
-    private String title;
+    public String title;
     private String artist;
 
     public Song (long songID, String songTitle , String songArtist)
