@@ -19,8 +19,7 @@ public class EchoNestHandler {
 
     public double SendToNest(final String url)
     {
-        new Thread() {
-            public void run() {
+
                 try {
 
 
@@ -37,14 +36,13 @@ public class EchoNestHandler {
                     e.printStackTrace();
                 }
 
-            }
 
-
-        }.start();
         double value = Double.parseDouble(SetServerString);
         return value;
 
-    }
+        }
+
+
 
     public String FormatUrl(String artist , String title)
     {

@@ -1,7 +1,11 @@
 package com.example.project_ict_4;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,9 +24,17 @@ public class MainActivity extends ActionBarActivity {
     Button btnSetBPM;
     Button btnDetectRP;
     Button btnCalculator;
-    String SongTitle;
-    String Artist;
+    String SongTitle="";
+    String Artist="";
     EchoNestHandler echoservice;
+    String bpm2;
+    ArrayList<Song> songList = new ArrayList<Song>();
+    Song s1 = new Song(1,"Insomnia", "Faithless"); //127.005
+    Song s2 = new Song(2,"Music is my alibi", "Mark with a k"); //150.069
+    Song s3 = new Song(3,"Promesses", "tchami"); //124.01
+
+
+
 
     //Make a collection for the accelormeter data so we can use it for the pace recognition
 
@@ -35,20 +47,42 @@ public class MainActivity extends ActionBarActivity {
         btnSetBPM = (Button) findViewById(R.id.buttonSetBpm);
         btnDetectRP = (Button) findViewById(R.id.btnDetectRunningPace);
         btnCalculator =(Button) findViewById(R.id.btnCalc);
-
+        final Handler handler = new Handler();
         btnCalculator.setOnClickListener(new View.OnClickListener()
         {public void onClick(View v) {
-                echoservice = new EchoNestHandler();
-                    for (Song s : player.songList) {
-                        SongTitle=s.getTitle();
-                        Artist=s.getArtist();
 
-                        String Url =echoservice.FormatUrl(Artist,SongTitle);
-                        double bpm= echoservice.SendToNest(Url);
-                        String bpm2 = String.valueOf(bpm);
-                        Toast.makeText(MainActivity.this,bpm2, Toast.LENGTH_LONG).show();
+                songList.add(s1);
+                songList.add(s2);
+                songList.add(s3);
 
-                    }
+
+                       new Thread() {
+                            public void run() {
+                                try {
+                                    for (Song s : songList) {
+                                        SongTitle = s.getTitle();
+                                        Artist = s.getArtist();
+                                        echoservice = new EchoNestHandler();
+                                        String Url = echoservice.FormatUrl(Artist, SongTitle);
+                                        double bpm = echoservice.SendToNest(Url);
+                                        bpm2 = String.valueOf(bpm);
+
+                                        handler.post(new Runnable() {
+                                            public void run() {
+                                                Toast.makeText(MainActivity.this, bpm2, Toast.LENGTH_LONG).show();
+
+                                            }
+
+                                        });
+                                    }
+
+                                    }catch(Exception v){
+                                        System.out.println(v);
+                                    }
+
+                            }
+                        }.start();
+
             }});
 
 
@@ -81,6 +115,33 @@ public class MainActivity extends ActionBarActivity {
     public short SetBPM(short bpm)
     {
         return bpm;
+    }
+
+    public void getSongList() {
+        ContentResolver musicResolver = getContentResolver();
+        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
+
+
+        if(musicCursor!=null && musicCursor.moveToFirst()){
+            //get columns
+            int titleColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media.TITLE);
+            int idColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media._ID);
+            int artistColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media.ARTIST);
+            //add songs to list
+            do {
+                long thisId = musicCursor.getLong(idColumn);
+                String thisTitle = musicCursor.getString(titleColumn);
+                String thisArtist = musicCursor.getString(artistColumn);
+                songList.add(new Song(thisId, thisTitle, thisArtist));
+            }
+            while (musicCursor.moveToNext());
+        }
+
+
     }
 
 
