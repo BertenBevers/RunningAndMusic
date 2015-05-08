@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 
@@ -28,10 +29,14 @@ public class MainActivity extends ActionBarActivity {
     String Artist="";
     EchoNestHandler echoservice;
     String bpm2;
-    ArrayList<Song> songList = new ArrayList<Song>();
+    ArrayList<Song> songList = new ArrayList<>();
+
+
+
     Song s1 = new Song(1,"Insomnia", "Faithless"); //127.005
     Song s2 = new Song(2,"Music is my alibi", "Mark with a k"); //150.069
     Song s3 = new Song(3,"Promesses", "tchami"); //124.01
+    Song s4 = new Song(4,"Raise Your Fist", "Angerfist");
 
 
 
@@ -51,9 +56,15 @@ public class MainActivity extends ActionBarActivity {
         btnCalculator.setOnClickListener(new View.OnClickListener()
         {public void onClick(View v) {
 
-                songList.add(s1);
+
+                /*songList.add(s1);
                 songList.add(s2);
                 songList.add(s3);
+                songList.add(s4);*/
+
+                  songList =  getSongList();
+                Collections.reverse(songList);
+
 
 
                        new Thread() {
@@ -62,19 +73,24 @@ public class MainActivity extends ActionBarActivity {
                                     for (Song s : songList) {
                                         SongTitle = s.getTitle();
                                         Artist = s.getArtist();
-                                        echoservice = new EchoNestHandler();
-                                        String Url = echoservice.FormatUrl(Artist, SongTitle);
-                                        double bpm = echoservice.SendToNest(Url);
-                                        bpm2 = String.valueOf(bpm);
+                                     // if(SongTitle == "Promesses") {
 
-                                        handler.post(new Runnable() {
-                                            public void run() {
-                                                Toast.makeText(MainActivity.this, bpm2, Toast.LENGTH_LONG).show();
+                                            echoservice = new EchoNestHandler();
+                                            String Url = echoservice.FormatUrl(Artist, SongTitle);
+                                            double bpm = echoservice.SendToNest(Url);
+                                            bpm2 = String.valueOf(bpm);
 
-                                            }
+                                            handler.post(new Runnable() {
+                                                public void run() {
+                                                    Toast.makeText(MainActivity.this,bpm2, Toast.LENGTH_LONG).show();
 
-                                        });
-                                    }
+                                                }
+
+                                            });
+
+                                      // }
+                                        }
+
 
                                     }catch(Exception v){
                                         System.out.println(v);
@@ -117,7 +133,10 @@ public class MainActivity extends ActionBarActivity {
         return bpm;
     }
 
-    public void getSongList() {
+    public ArrayList<Song> getSongList() {
+
+        ArrayList<Song> list = new ArrayList<>();
+
         ContentResolver musicResolver = getContentResolver();
         Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
@@ -136,12 +155,14 @@ public class MainActivity extends ActionBarActivity {
                 long thisId = musicCursor.getLong(idColumn);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                songList.add(new Song(thisId, thisTitle, thisArtist));
+
+
+                list.add(new Song(thisId, thisTitle, thisArtist));
             }
             while (musicCursor.moveToNext());
         }
 
-
+            return list;
     }
 
 
