@@ -51,6 +51,8 @@ public class DatabaseAdapter  {
         private static final String TITLE="Title";
         private static final String ARTIST="Artist";
         private static final String BPM="Bpm";
+
+
         private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+" ("+UID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+TITLE+" VARCHAR(255), "+ARTIST+" VARCHAR(255), "+BPM+" DOUBLE);";
         private static final String DROP_TABLE="DROP TABLE IF EXISTS" +TABLE_NAME;
         private Context context;
