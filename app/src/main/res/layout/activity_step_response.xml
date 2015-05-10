@@ -54,6 +54,17 @@
             android:text="Reset steps"
             android:id="@+id/btnReset"/>
 
+
+        <Button
+            android:padding="5dp"
+            android:background="#0091ea"
+            android:textColor="#fff"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match song with bpm"
+            android:id="@+id/btnPlaySong"/>
         <TextView
             android:id="@+id/TvTimer"
             android:layout_width="wrap_content"
