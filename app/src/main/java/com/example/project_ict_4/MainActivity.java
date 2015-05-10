@@ -3,6 +3,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class MainActivity extends ActionBarActivity  {
     Button btnCalculator;
     String SongTitle="";
     String Artist="";
+    int SongID;
     DatabaseAdapter dbAdapter;
     EchoNestHandler echoservice;
 
@@ -50,12 +52,13 @@ public class MainActivity extends ActionBarActivity  {
 
                                         SongTitle = s.getTitle();
                                         Artist = s.getArtist();
+                                        SongID = (int) s.getID();
 
                                         echoservice = new EchoNestHandler();
                                         String Url = echoservice.FormatUrl(Artist, SongTitle);
                                         double bpm = echoservice.SendToNest(Url);
 
-                                        dbAdapter.insertData(SongTitle,Artist,bpm);
+                                        dbAdapter.insertData(SongTitle,Artist,bpm,SongID);
                                         }
                                     }catch(Exception v){
                                         System.out.println(v);
@@ -67,6 +70,7 @@ public class MainActivity extends ActionBarActivity  {
         btnDetectRP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent i = new Intent(getApplicationContext(), StepResponse.class);
                 startActivity(i);
             }

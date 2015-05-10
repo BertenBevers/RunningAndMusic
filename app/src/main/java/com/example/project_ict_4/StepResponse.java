@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ public class StepResponse extends Activity implements SensorEventListener {
     private Intent playIntent;
     private boolean musicBound=false;
 
+    DatabaseAdapter adapter ;
+    long SongId;
 
     //Step detection
     int StepCounter = 0; //
@@ -68,6 +71,7 @@ public class StepResponse extends Activity implements SensorEventListener {
         TvTimer = (TextView) findViewById(R.id.TvTimer);
         TvAnalyzingTime = (TextView) findViewById(R.id.TvAnalyzingTime);
         TvBPM = (TextView) findViewById(R.id.TvBPM);
+        adapter= new DatabaseAdapter(getApplicationContext());
 
         sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
         // add listener. The listener will be  (this) class
@@ -86,9 +90,15 @@ public class StepResponse extends Activity implements SensorEventListener {
             }
         });
 
-       PlayBtn.setOnClickListener(new View.OnClickListener() {
+        PlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                double bpm1 = BPM -20;
+                double bpm2 = BPM + 20;
+
+                SongId=adapter.getSongID(bpm1,bpm2);
+                int id = (int) SongId;
+                musicSrv.setSong(id);
                 musicSrv.playSong();
             }
         });
@@ -108,7 +118,6 @@ public class StepResponse extends Activity implements SensorEventListener {
             musicSrv = binder.getService();
             //pass list
 
-            musicSrv.setSong(1);
             musicBound = true;
         }
 
@@ -202,4 +211,3 @@ public class StepResponse extends Activity implements SensorEventListener {
         }
     }
 }
-

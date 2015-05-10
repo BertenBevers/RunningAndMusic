@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by Berten on 6/05/2015.
  */
@@ -16,14 +21,42 @@ public class DatabaseAdapter  {
     public DatabaseAdapter (Context context){
         handler = new DatabaseHandler(context);
     }
-    public void insertData(String title, String artist, double bpm)
+    public void insertData(String title, String artist, double bpm, int songid)
     {
         SQLiteDatabase db = handler.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHandler.TITLE,title );
         contentValues.put(DatabaseHandler.ARTIST, artist);
         contentValues.put(DatabaseHandler.BPM, bpm);
+        contentValues.put(DatabaseHandler.UID,songid);
         db.insert(DatabaseHandler.TABLE_NAME, null, contentValues);
+    }
+
+    public long getSongID(double bpm1, double bpm2)
+    {
+       //int i=0;
+        //int[] array = new int[50];
+        List<Integer> list = new ArrayList<>();
+        long songID = 0;
+        SQLiteDatabase db = handler.getWritableDatabase();
+        String[] columns = {DatabaseHandler.UID};
+        Cursor cursor=db.query(DatabaseHandler.TABLE_NAME, columns,"Bpm BETWEEN "+bpm1+" AND "+bpm2,null,null,null,null);
+        StringBuffer buffer = new StringBuffer();
+
+        while(cursor.moveToNext()){
+
+            int sid = cursor.getInt(0);
+            list.add(sid);
+          //  array[i] = sid;
+          //  i++;
+
+        }
+        Collections.shuffle(list);
+        songID = list.get(0);
+
+
+        /// doe iets
+        return  songID;
     }
 
     public String getAllData()
@@ -53,7 +86,7 @@ public class DatabaseAdapter  {
         private static final String BPM="Bpm";
 
 
-        private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+" ("+UID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+TITLE+" VARCHAR(255), "+ARTIST+" VARCHAR(255), "+BPM+" DOUBLE);";
+        private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+" ("+UID+" INTEGER, "+TITLE+" VARCHAR(255), "+ARTIST+" VARCHAR(255), "+BPM+" DOUBLE);";
         private static final String DROP_TABLE="DROP TABLE IF EXISTS" +TABLE_NAME;
         private Context context;
 

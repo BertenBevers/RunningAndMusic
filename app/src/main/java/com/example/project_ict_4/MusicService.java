@@ -82,10 +82,10 @@ public class MusicService extends Service implements
         //play a song
         player.reset();
         //get song
-        Song playSong = songs.get(songPosn);
-        songTitle=playSong.getTitle();
-//get id
-        long currSong = playSong.getID();
+
+//get ids
+
+        long currSong =songPosn;
 //set uri
         Uri trackUri = ContentUris.withAppendedId(
                 android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
