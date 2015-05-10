@@ -9,6 +9,15 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
+import android.os.IBinder;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.view.MenuItem;
+import android.view.View;
+
+import java.util.ArrayList;
 
 public class StepResponse extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
@@ -22,6 +31,11 @@ public class StepResponse extends Activity implements SensorEventListener {
     private TextView TvAnalyzingTime;
     private TextView TvBPM;
     private Button ResetBtn;
+    private Button PlayBtn;
+    private MusicService musicSrv;
+    private Intent playIntent;
+    private boolean musicBound=false;
+
 
     //Step detection
     int StepCounter = 0; //
@@ -60,7 +74,7 @@ public class StepResponse extends Activity implements SensorEventListener {
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
-
+        PlayBtn =(Button) findViewById(R.id.btnPlaySong);
         ResetBtn = (Button) findViewById(R.id.btnReset); // performance-check: public void btnReset, double code?
         ResetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +85,47 @@ public class StepResponse extends Activity implements SensorEventListener {
                 steps.setText("Stappen: " + Integer.toString(StepCounter));
             }
         });
+
+       PlayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                musicSrv.playSong();
+            }
+        });
+
+
         TvAnalyzingTime.setText("Analyzing Time: ");
         TvBPM.setText("BPM: ");
         TvTimer.setText("Time: ");
     }
+    //connect to the service
+    private ServiceConnection musicConnection = new ServiceConnection(){
 
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
+            //get service
+            musicSrv = binder.getService();
+            //pass list
+
+            musicSrv.setSong(1);
+            musicBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicBound = false;
+        }
+    };
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(playIntent==null){
+            playIntent = new Intent(this, MusicService.class);
+            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            startService(playIntent);
+        }
+    }
     public void onAccuracyChanged(Sensor sensor,int accuracy){
     }
 
