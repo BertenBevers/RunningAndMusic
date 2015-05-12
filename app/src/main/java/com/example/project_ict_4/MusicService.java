@@ -99,6 +99,30 @@ public class MusicService extends Service implements
         player.prepareAsync();
     }
 
+
+    public void playMatchSong(){
+        //play a song
+        player.reset();
+        //get song
+
+//get ids
+        Song playSong  = songs.get(songPosn);
+
+
+        long currSong = playSong.getID();
+//set uri
+        Uri trackUri = ContentUris.withAppendedId(
+                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                currSong);
+        try{
+            player.setDataSource(getApplicationContext(), trackUri);
+        }
+        catch(Exception e){
+            Log.e("MUSIC SERVICE", "Error setting data source", e);
+        }
+        player.prepareAsync();
+    }
+
     public void setSong(int songIndex){
         songPosn=songIndex;
     }

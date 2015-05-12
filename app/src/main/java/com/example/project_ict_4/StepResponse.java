@@ -97,7 +97,7 @@ public class StepResponse extends Activity implements SensorEventListener {
                 SongId=adapter.getSongID(bpm1,bpm2);
                 int id = (int) SongId;
                 musicSrv.setSong(id);
-                musicSrv.playSong();
+                musicSrv.playMatchSong();
             }
         });
 
